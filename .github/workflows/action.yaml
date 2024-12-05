@@ -1,8 +1,8 @@
 name: print-env
 run-name: Print Environment Variables
+branches:
+  - main
 on: [push]
-  branches:
-    - main
   jobs:
     print-env-job:
       runs-on: ubuntu-latest
