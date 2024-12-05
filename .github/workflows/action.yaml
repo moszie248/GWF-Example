@@ -1,0 +1,10 @@
+name: print-env
+run-name: Print Environment Variables
+on: [push]
+  jobs:
+    print-env-job:
+      runs-on: ubuntu-latest
+      steps:
+        - run: cargo build
+        
+    
