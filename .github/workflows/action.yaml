@@ -1,12 +1,17 @@
 name: print-env
 run-name: Print Environment Variables
-branches:
-  - main
-on: [push]
-  jobs:
-    print-env-job:
-      runs-on: ubuntu-latest
-      steps:
-        - run: cargo build
-        
-    
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  print-env-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build with Cargo
+        run: cargo build
