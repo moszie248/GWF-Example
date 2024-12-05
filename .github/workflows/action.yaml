@@ -15,3 +15,9 @@ jobs:
 
       - name: Build with Cargo
         run: cargo build
+
+      - name: Install dotenv CLI
+        run: npm install -g dotenv-cli
+
+      - name: Load environment variables
+        run: dotenv -e .env -- echo "ENDPOINT=$ENDPOINT PORT=$PORT"
