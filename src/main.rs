@@ -1,21 +1,32 @@
-// index.js
-
-fn main() {
-    println!("Hello, world!");
-}
-
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, App, HttpResponse, HttpServer, Responder};
+use dotenv::dotenv;
+use std::env;
 
 #[get("/")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+async fn show() -> impl Responder {
+	let print_env = env::var("PRINT_ENV").unwrap_or_else(|_| "Variable not found".to_string());
+	let port = env::var("PORT").unwrap_or_else(|_| "Not set".to_string());
+	let endpoint = env::var("ENDPOINT").unwrap_or_else(|_| "Not set".to_string());
+
+
+      HttpResponse::Ok().body(format!(
+        "PRINT_ENV: {}\nPORT: {}\nENDPOINT: {}",
+        print_env, port, endpoint
+    ))
 }
 
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
-}
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+	dotenv().ok();
+	env_logger::init();
 
-async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
+	// let port = env::var("PORT")
+  //       .unwrap_or_else(|_| "8080".to_string())
+  //       .parse::<u16>()
+  //       .unwrap();
+
+				HttpServer::new(|| App::new().service(show))
+        .bind(("127.0.0.1", 8080))?
+        .run()
+        .await
 }

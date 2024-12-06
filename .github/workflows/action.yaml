@@ -15,3 +15,9 @@ jobs:
 
       - name: Build with Cargo
         run: cargo build
+
+      - name: Dockerbuild
+        run: docker build -t moshidev/localautomate:2.0.0 -f Dockerfile .
+      
+      - name: Dockerpush
+        run: docker push moshidev/localautomate:2.0.0
