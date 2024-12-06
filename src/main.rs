@@ -4,10 +4,13 @@ use std::env;
 
 #[get("/")]
 async fn show() -> impl Responder {
-	let print_env = env::var("PRINT_ENV").unwrap_or_else(|_| "Variable not found".to_string());
-	let port = env::var("PORT").unwrap_or_else(|_| "Not set".to_string());
-	let endpoint = env::var("ENDPOINT").unwrap_or_else(|_| "Not set".to_string());
+	let print_env = env::var("PRINT_ENV").ok().unwrap();
+	let port = env::var("PORT").ok().unwrap();
+	let endpoint = env::var("ENDPOINT").ok().unwrap();
 
+	format!(
+				"PRINT_ENV: {}\nPORT: {}\nENDPOINT: {}",
+				print_env, port, endpoint)
 
       HttpResponse::Ok().body(format!(
         "PRINT_ENV: {}\nPORT: {}\nENDPOINT: {}",
